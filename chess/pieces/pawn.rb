@@ -1,3 +1,5 @@
+require 'byebug'
+
 class Pawn < Piece
 
         FORWARD_STEPS = [
@@ -27,9 +29,9 @@ class Pawn < Piece
         row = self.pos[0]
         color = self.color
         if color == :white
-            row == 6 ? return true : return false
+            return row == 6 ? true : false
         else
-            row == 1 ? return true : return false 
+            return row == 1 ? true : false 
         end
     end
 

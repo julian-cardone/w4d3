@@ -1,4 +1,5 @@
 require_relative 'pieces'
+require 'byebug'
 
 class Board
 
@@ -91,6 +92,18 @@ class Board
 
     def move_piece!(color, start_pos, end_pos)
 
+    end
+
+    def to_s
+        board_str = ""
+        @rows.each do |row|
+            row_str = ""
+            (0..7).each do |i|
+                row_str += row[i].to_s 
+            end
+            board_str += row_str + "\n"
+        end
+        board_str
     end
 
 end
