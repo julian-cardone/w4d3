@@ -10,7 +10,15 @@ class Pawn < Piece
             [1, 1]
         ].freeze
 
+    def symbol
+        "".colorize(color)
+    end
+
     def moves
+
+        result = []
+
+        result.concat(self.forward_steps).concat(self.side_attacks)
 
     end
 
@@ -31,19 +39,28 @@ class Pawn < Piece
 
     def forward_steps
 
+        result = []
+
         dir = self.forward_dir
 
         steps = FORWARD_STEPS.map {|step| dir * step}
 
-        if self.at_start_row?
-            return steps
-        else
-            return [steps[0]]
+        unless self.at_start_row?
+           steps =  [steps[0]]
         end
 
+        steps.each do |step|
+            new_pos = [pos[0] + step[0], pos[1] + step[1]]
+            if self[new_pos].empty?
+                result << new_pos
+            end
+        end
+        return result
     end
 
     def side_attacks
+
+        result = []
        
         dir = self.forward_dir
 
