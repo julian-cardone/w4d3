@@ -4,7 +4,7 @@ class NullPiece < Piece
     include Singleton
 
     def initialize
-        super(" ", nil, nil)
+        super(:blue, nil, nil)
     end
 
     def moves
@@ -12,6 +12,6 @@ class NullPiece < Piece
     end
 
     def symbol
-        " ".colorize(self.color)
+        "*".colorize(self.color)
     end
 end

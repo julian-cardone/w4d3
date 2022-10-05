@@ -1,3 +1,5 @@
+require "byebug"
+
 module Slideable
     HORIZONTAL_DIRS = [
         [0, 1], 
@@ -25,7 +27,7 @@ module Slideable
         result = []
         self.move_dirs.each do |dir|
             # dx, dy = dir
-            unblocked_moves = self.grow_unblocked_moves_in_dir(dir)
+            unblocked_moves = self.grow_unblocked_moves_in_dir(*dir)
             result.concat(unblocked_moves)
         end
         result
@@ -42,10 +44,11 @@ module Slideable
         pos = self.pos
         color = self.color
         next_pos = [pos[0] + dx, pos[1] + dy]
+        debugger
         while board.valid_pos?(next_pos)
             if board[next_pos].empty? #NullPiece
                 result << next_pos
-                next_pos = [pos[0] + dx, pos[1] + dy]
+                next_pos = [next_pos[0] + dx, next_pos[1] + dy]
             else
                 if board[next_pos].color == color
                     break

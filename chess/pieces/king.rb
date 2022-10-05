@@ -1,7 +1,7 @@
 require_relative "piece"
 require_relative "steppable"
 
-class King
+class King < Piece
     include Steppable
 
     KING_DIFFS = [
