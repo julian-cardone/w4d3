@@ -1,67 +1,43 @@
-require_relative 'piece.rb'
+require_relative 'pieces'
 
 class Board
 
     def initialize
         @rows = Array.new(8){ Array.new(8) }
-        self.set_up_pieces
         self.set_up_null_pieces
-    end
-
-    def set_up_pieces
-        # queen_pos = []
-        # rook_pos = []
-        # knight_pos = []
-        # queen_pos = []
-        # rook_pos = []
-        # knight_pos = []
-        # self[queen_pos] = Queen.new
-        # self[rook_pos] = Rook.new
-        # self[knight_pos] = Knight.new
-        # self[queen_pos] = Queen.new
-        # self[rook_pos] = Rook.new
-        # self[knight_pos] = Knight.new
-        white_queen = Piece.new
-        black_queen = Piece.new
-
-        black_knight_1 = Piece.new
-        black_knight_2 = Piece.new
-        white_knight_1 = Piece.new
-        white_knight_2 = Piece.new
-
-        black_rook_1 = Piece.new
-        black_rook_2 = Piece.new
-        white_rook_1 = Piece.new
-        white_rook_2 = Piece.new
-
-
-        self[[0,3]] = black_queen
-        self[[7,3]] = white_queen
-
-        self[[0,1]] = black_knight_1
-        self[[0,6]] = black_knight_2
-        self[[7,1]] = white_knight_1
-        self[[7,6]] = white_knight_2
-
-        self[[0,0]] = black_rook_1
-        self[[0,7]] = black_rook_2
-        self[[7,0]] = white_rook_1
-        self[[7,7]] = white_rook_2
-
+        self.set_up_pieces
     end
 
     def set_up_null_pieces
-        # null_pieces_positions = []
-        # null_pieces_positions.each do |pos|
-        #     #self[pos] = NullPiece.new
-        #     self[pos] = nil
-
-        # end
         (2..5).each do |i|
             (0..7).each do |j|
                 pos = [i,j]
-                self[pos] = nil
+                self[pos] = NullPiece.instance
             end
+        end
+    end
+
+    def set_up_row(color, piece_classes, row)
+        piece_classes.each_with_index do |piece_class, col|
+            pos = [row, col]
+            piece = piece_class.new(color, self, pos)
+            self.add_piece(piece, pos)
+        end
+    end
+
+    def set_up_pieces
+        front_row_piece_classes = [Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn, Pawn]
+        back_row_piece_classes = [Rook, Knight, Bishop, Queen, King, Bishop, Knight, Rook]
+        [:white, :black].each do |color|
+            if color == :white
+                front_row = 6
+                back_row = 7
+            else
+                front_row = 1
+                back_row = 0
+            end
+            self.set_up_row(color, front_row_piece_classes, front_row)
+            self.set_up_row(color, back_row_piece_classes, back_row)
         end
     end
 
@@ -77,19 +53,11 @@ class Board
 
     def move_piece(start_pos, end_pos)
         piece = self[start_pos]
-        if piece == nil
-             raise "exception"
-        else
+        if piece.valid_moves.include?(end_pos)
             self[end_pos] = piece
-            self[start_pos] = nil
+        else
+            raise "Invalid Move"
         end
-            # moves = piece.moves
-            # end_positions = moves.map { |move| process(start_pos, move) }
-            # if end_positions.include?(end_pos)
-            #     self[end_pos] = piece
-            # else
-            #     raise "Can not move to #{end_pos}"
-            # end
     end
 
     def valid_pos?(pos)
