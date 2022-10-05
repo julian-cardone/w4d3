@@ -11,7 +11,7 @@ class Pawn < Piece
         ].freeze
 
     def symbol
-        "".colorize(color)
+        "♙".colorize(self.color)
     end
 
     def moves

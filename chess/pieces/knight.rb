@@ -16,7 +16,7 @@ class Knight
     ]
 
     def symbol
-        "".colorize(color)
+        "♘".colorize(self.color)
     end
 
     protected

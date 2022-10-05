@@ -16,7 +16,7 @@ class King
     ]
 
     def symbol
-        "".colorize(color)
+        "♔".colorize(self.color)
     end
 
     protected
