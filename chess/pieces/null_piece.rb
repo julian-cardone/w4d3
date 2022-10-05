@@ -3,15 +3,16 @@ require "singleton"
 class NullPiece < Piece
     include Singleton
 
-    def initialize
-        
+    def initialize(board, pos)
+        super("null piece", board, nil)
+        @@instance = 
     end
 
     def moves
-
+        []
     end
 
     def symbol
-        # "".colorize(color)
+        "".colorize(color)
     end
 end
